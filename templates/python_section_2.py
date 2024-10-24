@@ -79,9 +79,3 @@ def calculate_time_based_toll_rates(df)->pd.DataFrame():
 
     return df
 
-df = pd.read_csv("E:\MapUp-DA-Assessment-2024\datasets\dataset-2.csv")
-new_df = calculate_distance_matrix(df)
-new_df=unroll_distance_matrix(new_df)
-lst = find_ids_within_ten_percentage_threshold(new_df,1001400)
-new_df = calculate_toll_rate(new_df)
-print(lst)

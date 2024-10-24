@@ -37,16 +37,24 @@ def group_by_length(lst: List[str]) -> Dict[int, List[str]]:
    
   return dic
 
-# def flatten_dict(nested_dict: Dict, sep: str = '.') -> Dict:
-#     """
-#     Flattens a nested dictionary into a single-level dictionary with dot notation for keys.
-    
-#     :param nested_dict: The dictionary object to flatten
-#     :param sep: The separator to use between parent and child keys (defaults to '.')
-#     :return: A flattened dictionary
-#     """
-#     # Your code here
-#     return dict
+def flatten_dict(nested_dict):
+    parent_key=''
+    sep='.'
+    flattened = {}
+    def flatten(inner_dict, parent_key):
+      if isinstance(inner_dict, dict): 
+          for key, value in inner_dict.items():
+              new_key = f"{parent_key}{sep}{key}" if parent_key else key
+              flatten(value, new_key) 
+      elif isinstance(inner_dict, list):  
+          for i, value in enumerate(inner_dict):
+              new_key = f"{parent_key}[{i}]"
+              flatten(value, new_key) 
+      else:
+          flattened[parent_key] = inner_dict  
+    flatten(nested_dict, parent_key)
+    return flattened
+
 
 def unique_permutations(nums: List[int]) -> List[List[int]]:
     from itertools import  permutations 
@@ -142,5 +150,3 @@ def rotate_and_multiply_matrix(matrix: List[List[int]]) -> List[List[int]]:
 #     # Write your logic here
 
 #     return pd.Series()
-
-
