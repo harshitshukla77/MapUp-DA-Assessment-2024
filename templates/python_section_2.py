@@ -3,10 +3,12 @@ import pandas as pd
 
 def calculate_distance_matrix(df)->pd.DataFrame():
 
-    new_df = pd.DataFrame(index = df['id_start'],columns=df['id_start'])
-
-    lst = list(df['id_start'].values)
+    lst = list(df['id_start'].drop_duplicates().values)
     lst.append(1001472)
+
+    new_df = pd.DataFrame(index = lst,columns=lst)
+
+
     for i in range(len(lst)):
         for j in range(i,len(lst)):
             if lst[i] == lst[j] :
@@ -19,14 +21,14 @@ def calculate_distance_matrix(df)->pd.DataFrame():
 
 
 
-    for i in range(0,45):
-        for j in range(0,45):
+    for i in range(0,42):
+        for j in range(0,42):
             if i == j or j> i:
                 pass
             else:
                 new_df.iloc[i,j] = new_df.iloc[j,i]
-
     return new_df
+
 
 
 
@@ -48,7 +50,7 @@ def unroll_distance_matrix(df)->pd.DataFrame():
 
 def find_ids_within_ten_percentage_threshold(df, reference_id)->pd.DataFrame():
 
-    m = df[df["id_start"] == 1001400]['distance'].values.mean()
+    m = df[df["id_start"] == reference_id]['distance'].values.mean()
     low = m-(m *0.10)
     high = m+(m *0.10)
     lst = list(df[(df['distance'] >= low ) & (df['distance']<=high)]['id_start'].drop_duplicates().sort_values().values)
@@ -80,6 +82,6 @@ def calculate_time_based_toll_rates(df)->pd.DataFrame():
 df = pd.read_csv("E:\MapUp-DA-Assessment-2024\datasets\dataset-2.csv")
 new_df = calculate_distance_matrix(df)
 new_df=unroll_distance_matrix(new_df)
-# lst = find_ids_within_ten_percentage_threshold(new_df,1001400)
+lst = find_ids_within_ten_percentage_threshold(new_df,1001400)
 new_df = calculate_toll_rate(new_df)
-print(new_df)
+print(lst)
