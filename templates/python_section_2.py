@@ -43,6 +43,7 @@ def unroll_distance_matrix(df)->pd.DataFrame():
             id_start.append(cols[i])
             id_end.append(cols[j])
             distance.append(new_df.loc[cols[i],cols[j]])
+            distance.append(df.loc[cols[i],cols[j]])
     dic = {'id_start':id_start,'id_end':id_end,"distance":distance}
     df = pd.DataFrame(dic)
     return df
@@ -76,6 +77,7 @@ def calculate_time_based_toll_rates(df)->pd.DataFrame():
         pandas.DataFrame
     """
     # Write your logic here
+
 
     return df
 
